@@ -40,7 +40,6 @@ public class Actor extends BaseInfoEntity {
 
     public static Actor from(AddActorReq req){
         return Actor.builder()
-                .id(req.getId())
                 .name(req.getName())
                 .image(req.getImage())
                 .build();

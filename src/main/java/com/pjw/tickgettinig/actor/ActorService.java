@@ -4,6 +4,7 @@ import com.pjw.tickgettinig.actor.entity.Actor;
 import com.pjw.tickgettinig.actor.repository.ActorRepositoryImpl;
 import com.pjw.tickgettinig.actor.vo.ActorView;
 import com.pjw.tickgettinig.actor.vo.AddActorReq;
+import com.pjw.tickgettinig.actor.vo.UpdateActorReq;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
@@ -40,7 +41,7 @@ public class ActorService {
         return actor.toView();
     }
 
-    public ActorView updateActor(AddActorReq req){
+    public ActorView updateActor(UpdateActorReq req){
         // actor 정보가 존재하는 경우에만 수정
         Actor actor = actorRepository.findById(req.getId()).orElseThrow(RuntimeException::new);
 
