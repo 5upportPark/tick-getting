@@ -7,6 +7,7 @@ import jakarta.persistence.*;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
 import java.time.ZonedDateTime;
 
@@ -14,6 +15,7 @@ import java.time.ZonedDateTime;
 @Table
 @NoArgsConstructor
 @Getter
+@EntityListeners(value = {AuditingEntityListener.class})
 public class Actor extends BaseInfoEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -26,8 +28,6 @@ public class Actor extends BaseInfoEntity {
     public void update(String name, String image){
         this.name = name;
         this.image = image;
-        this.updatedBy = "";
-        this.updatedAt = ZonedDateTime.now();
     }
 
     public ActorView toView(){
