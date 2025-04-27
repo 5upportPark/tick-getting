@@ -12,13 +12,14 @@ import java.time.ZonedDateTime;
 @NoArgsConstructor
 @MappedSuperclass
 public abstract class BaseInfoEntity {
-
+    @CreatedBy
     @Column(updatable = false)
     protected String createdBy;
 
     @Column(updatable = false)
     protected ZonedDateTime createdAt;
 
+    @LastModifiedBy
     protected String updatedBy;
     protected ZonedDateTime updatedAt;
 
