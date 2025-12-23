@@ -1,8 +1,8 @@
-package com.pjw.tickgettinig.actor;
+package com.pjw.tickgettinig.actor.controller;
 
+import com.pjw.tickgettinig.actor.service.ActorService;
 import com.pjw.tickgettinig.actor.vo.ActorView;
-import com.pjw.tickgettinig.actor.vo.AddActorReq;
-import com.pjw.tickgettinig.actor.vo.UpdateActorReq;
+import com.pjw.tickgettinig.actor.vo.ActorRequest;
 import com.pjw.tickgettinig.common.ApiResponseExamples;
 import com.pjw.tickgettinig.common.ErrorCode;
 import io.swagger.v3.oas.annotations.Operation;
@@ -39,13 +39,13 @@ public class ActorController {
 
     @Operation(summary = "출연진 추가")
     @PostMapping
-    public void saveActor(@Valid @RequestBody AddActorReq req){
+    public void saveActor(@Valid @RequestBody ActorRequest.Add req){
         actorService.saveActor(req);
     }
 
     @Operation(summary = "출연진 수정")
     @PutMapping
-    public void updateActor(@Valid @RequestBody UpdateActorReq req){
+    public void updateActor(@Valid @RequestBody ActorRequest.Edit req){
         actorService.updateActor(req);
     }
 

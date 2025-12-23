@@ -1,7 +1,7 @@
 package com.pjw.tickgettinig.actor.entity;
 
 import com.pjw.tickgettinig.actor.vo.ActorView;
-import com.pjw.tickgettinig.actor.vo.AddActorReq;
+import com.pjw.tickgettinig.actor.vo.ActorRequest;
 import com.pjw.tickgettinig.entity.BaseInfoEntity;
 import jakarta.persistence.*;
 import lombok.Builder;
@@ -38,7 +38,7 @@ public class Actor extends BaseInfoEntity {
                 .build();
     }
 
-    public static Actor from(AddActorReq req){
+    public static Actor from(ActorRequest.Add req){
         return Actor.builder()
                 .name(req.getName())
                 .image(req.getImage())
