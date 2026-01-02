@@ -6,7 +6,7 @@ import lombok.Getter;
 @Getter
 public class ErrorResponse {
     private int code;
-    private String mwssage;
+    private String message;
 
     public static ErrorResponse from(ResponseCode code){
         return ErrorResponse.builder()
@@ -18,6 +18,6 @@ public class ErrorResponse {
     @Builder
     public ErrorResponse(int code, String message) {
         this.code = code;
-        this.mwssage = message;
+        this.message = message;
     }
 }
