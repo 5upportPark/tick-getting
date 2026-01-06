@@ -15,11 +15,12 @@ import org.springframework.web.bind.annotation.RestController;
 @RequiredArgsConstructor
 @RequestMapping("/v1/account")
 public class AccountController {
+    private final JwtProvider jwtProvider;
 
     @Operation(summary = "사용자 로그인")
-    @PostMapping
+    @PostMapping("/login")
     public LoginResponse login(@Valid @RequestBody LoginRequest loginRequest) {
-        return LoginResponse.of(JwtProvider.getAccessToken(loginRequest.getId(), loginRequest.getPassword()), JwtProvider.getRefreshToken(loginRequest.getId(), loginRequest.getPassword()));
+        return LoginResponse.of(jwtProvider.getAccessToken(loginRequest.getId()), jwtProvider.getRefreshToken(loginRequest.getId()));
     }
 
 }
