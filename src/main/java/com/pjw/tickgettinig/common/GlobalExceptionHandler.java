@@ -1,5 +1,6 @@
 package com.pjw.tickgettinig.common;
 
+import com.pjw.tickgettinig.common.exceptions.BusinessException;
 import com.pjw.tickgettinig.common.exceptions.UserNotFoundException;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.ExceptionHandler;
@@ -10,6 +11,12 @@ public class GlobalExceptionHandler {
 
     @ExceptionHandler(UserNotFoundException.class)
     public ResponseEntity<ErrorResponse> handleUserNotFoundException(UserNotFoundException e) {
+        ErrorResponse response = ErrorResponse.from(e.getErrorCode());
+        return new ResponseEntity<>(response, e.getErrorCode().getHttpStatus());
+    }
+
+    @ExceptionHandler(BusinessException.class)
+    public ResponseEntity<ErrorResponse> handleBusinessException(BusinessException e) {
         ErrorResponse response = ErrorResponse.from(e.getErrorCode());
         return new ResponseEntity<>(response, e.getErrorCode().getHttpStatus());
     }

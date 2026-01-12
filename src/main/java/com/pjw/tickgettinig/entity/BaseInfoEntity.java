@@ -6,6 +6,7 @@ import lombok.NoArgsConstructor;
 import org.springframework.data.annotation.CreatedBy;
 import org.springframework.data.annotation.LastModifiedBy;
 
+import java.time.LocalDateTime;
 import java.time.ZonedDateTime;
 
 @Getter
@@ -17,19 +18,19 @@ public abstract class BaseInfoEntity {
     protected String createdBy;
 
     @Column(updatable = false)
-    protected ZonedDateTime createdAt;
+    protected LocalDateTime createdAt;
 
     @LastModifiedBy
     protected String updatedBy;
-    protected ZonedDateTime updatedAt;
+    protected LocalDateTime updatedAt;
 
     @PrePersist
     public void prePersist(){
-        this.createdAt = ZonedDateTime.now();
+        this.createdAt = LocalDateTime.now();
     }
 
     @PreUpdate
     public void preUpdate(){
-        this.updatedAt = ZonedDateTime.now();
+        this.updatedAt = LocalDateTime.now();
     }
 }

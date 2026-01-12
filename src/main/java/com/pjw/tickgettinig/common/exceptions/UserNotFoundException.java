@@ -4,22 +4,17 @@ import com.pjw.tickgettinig.common.ErrorCode;
 import lombok.Getter;
 
 @Getter
-public class UserNotFoundException extends RuntimeException {
+public class UserNotFoundException extends BusinessException {
 
-    private final ErrorCode errorCode;
-
-    public UserNotFoundException(ErrorCode errorCode) {
-        super(errorCode.getMessage());
-        this.errorCode = errorCode;
+    public UserNotFoundException() {
+        super(ErrorCode.USER_NOT_FOUND.getMessage(), ErrorCode.USER_NOT_FOUND);
     }
 
     public UserNotFoundException(ErrorCode errorCode, String message) {
-        super(message);
-        this.errorCode = errorCode;
+        super(message, errorCode);
     }
 
     public UserNotFoundException(String message) {
-        super(message);
-        this.errorCode = ErrorCode.USER_NOT_FOUND;
+        super(message, ErrorCode.USER_NOT_FOUND);
     }
 }

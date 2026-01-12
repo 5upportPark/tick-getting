@@ -13,34 +13,35 @@ import java.util.Date;
 
 @Component
 public class JwtProvider {
-    private final String SECRET;
 
-    public JwtProvider(@Value("${jwt.secret}") String secret) {
-        this.SECRET = secret;
-    }
+  private final String SECRET;
 
-    public String getAccessToken(String username) {
-        SecretKey secretKey = Keys.hmacShaKeyFor(SECRET.getBytes(StandardCharsets.UTF_8));
-        return Jwts.builder()
-                .subject(username)
-                .signWith(secretKey)
-                .claim("id", 0L)
-                .id("jwtid")
-                .expiration(Date.from(Instant.now().plus(Duration.ofDays(1))))
-                .issuedAt(Date.from(Instant.now()))
-                .compact();
-    }
+  public JwtProvider(@Value("${jwt.secret}") String secret) {
+    this.SECRET = secret;
+  }
 
-    public String getRefreshToken(String username) {
-        SecretKey secretKey = Keys.hmacShaKeyFor(SECRET.getBytes(StandardCharsets.UTF_8));
-        return Jwts.builder()
-                .subject(username)
-                .signWith(secretKey)
-                .claim("id", 0L)
-                .id("jwtid")
-                .expiration(Date.from(Instant.now().plus(Duration.ofDays(60))))
-                .issuedAt(Date.from(Instant.now()))
-                .compact();
-    }
+  public String getAccessToken(String username, String id) {
+    SecretKey secretKey = Keys.hmacShaKeyFor(SECRET.getBytes(StandardCharsets.UTF_8));
+    return Jwts.builder()
+        .subject(username)
+        .signWith(secretKey)
+        .claim("id", 0L)
+        .id(id)
+        .expiration(Date.from(Instant.now().plus(Duration.ofDays(1))))
+        .issuedAt(Date.from(Instant.now()))
+        .compact();
+  }
+
+  public String getRefreshToken(String username) {
+    SecretKey secretKey = Keys.hmacShaKeyFor(SECRET.getBytes(StandardCharsets.UTF_8));
+    return Jwts.builder()
+        .subject(username)
+        .signWith(secretKey)
+        .claim("id", 0L)
+        .id("jwtid")
+        .expiration(Date.from(Instant.now().plus(Duration.ofDays(60))))
+        .issuedAt(Date.from(Instant.now()))
+        .compact();
+  }
 
 }

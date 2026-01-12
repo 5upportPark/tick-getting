@@ -3,6 +3,8 @@ package com.pjw.tickgettinig.common;
 import org.springframework.http.HttpStatus;
 
 public enum ErrorCode implements ResponseCode{
+    INVALID(HttpStatus.INTERNAL_SERVER_ERROR,"오류가 발생했습니다."),
+
     RESOURCE_NOT_FOUND(HttpStatus.NOT_FOUND, "데이터를 찾을 수 없습니다."),
     CHAT_MESSAGE_PARSE(HttpStatus.BAD_REQUEST, "채팅 메시지 변환에 실패했습니다."),
     DUPLICATE_REQ(HttpStatus.BAD_REQUEST, "중복된 요청입니다."),
