@@ -1,5 +1,8 @@
 package com.pjw.tickgettinig.config.properties;
 
+import com.pjw.tickgettinig.common.ErrorCode;
+import com.pjw.tickgettinig.common.exceptions.BusinessException;
+import com.pjw.tickgettinig.oauth.SnsType;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 import org.springframework.boot.context.properties.ConfigurationProperties;
@@ -7,21 +10,32 @@ import org.springframework.boot.context.properties.ConfigurationProperties;
 @Getter
 @ConfigurationProperties(prefix = "oauth2.client")
 public class OAuth2Properties {
-    private final Properties naver;
 
-    public OAuth2Properties(Properties naver) {
-        this.naver = naver;
-    }
+  private final Properties naver;
 
-    @Getter
-    @RequiredArgsConstructor
-    public static class Properties {
-        private final String clientId;
-        private final String clientSecret;
-        private final String redirectUri;
-        private final String tokenUri;
-        private final String userInfoUri;
-        private final String authorizeUri;
+  public OAuth2Properties(Properties naver) {
+    this.naver = naver;
+  }
 
-    }
+  public Properties ofSnsType(SnsType snsType) {
+    return switch (snsType) {
+      case NAVER -> this.naver;
+      case KAKAO -> null; // TODO
+      case GOOGLE -> null; // TODO
+      default -> throw new BusinessException("Invalid SnsType", ErrorCode.INVALID);
+    };
+  }
+
+  @Getter
+  @RequiredArgsConstructor
+  public static class Properties {
+
+    private final String clientId;
+    private final String clientSecret;
+    private final String redirectUri;
+    private final String tokenUri;
+    private final String userInfoUri;
+    private final String authorizeUri;
+
+  }
 }

@@ -20,13 +20,13 @@ public class JwtProvider {
     this.SECRET = secret;
   }
 
-  public String getAccessToken(String username, String id) {
+  public String getAccessToken(String username, Object id) {
     SecretKey secretKey = Keys.hmacShaKeyFor(SECRET.getBytes(StandardCharsets.UTF_8));
     return Jwts.builder()
         .subject(username)
         .signWith(secretKey)
-        .claim("id", 0L)
-        .id(id)
+        .claim("id", id)
+        .id(String.valueOf(id))
         .expiration(Date.from(Instant.now().plus(Duration.ofDays(1))))
         .issuedAt(Date.from(Instant.now()))
         .compact();

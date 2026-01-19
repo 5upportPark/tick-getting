@@ -4,33 +4,40 @@ import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import org.springframework.data.annotation.CreatedBy;
+import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.annotation.LastModifiedBy;
 
 import java.time.LocalDateTime;
 import java.time.ZonedDateTime;
+import org.springframework.data.annotation.LastModifiedDate;
+import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
 @Getter
 @NoArgsConstructor
 @MappedSuperclass
+@EntityListeners(value = {AuditingEntityListener.class})
 public abstract class BaseInfoEntity {
-    @CreatedBy
-    @Column(updatable = false)
-    protected String createdBy;
 
-    @Column(updatable = false)
-    protected LocalDateTime createdAt;
+  @CreatedBy
+  @Column(updatable = false)
+  protected String createdBy;
 
-    @LastModifiedBy
-    protected String updatedBy;
-    protected LocalDateTime updatedAt;
+  @CreatedDate
+  @Column(updatable = false)
+  protected LocalDateTime createdAt;
 
-    @PrePersist
-    public void prePersist(){
-        this.createdAt = LocalDateTime.now();
-    }
+  @LastModifiedBy
+  protected String updatedBy;
+  @LastModifiedDate
+  protected LocalDateTime updatedAt;
 
-    @PreUpdate
-    public void preUpdate(){
-        this.updatedAt = LocalDateTime.now();
-    }
+  @PrePersist
+  public void prePersist() {
+    this.createdAt = LocalDateTime.now();
+  }
+
+  @PreUpdate
+  public void preUpdate() {
+    this.updatedAt = LocalDateTime.now();
+  }
 }

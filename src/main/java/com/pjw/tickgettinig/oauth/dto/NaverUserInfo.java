@@ -17,6 +17,8 @@ public class NaverUserInfo implements OAuth2UserInfo, Serializable {
 
   private String resultcode;
   private String message;
+  private String access_token;
+  private String refresh_token;
   private Response response;
 
   @Builder
@@ -69,5 +71,15 @@ public class NaverUserInfo implements OAuth2UserInfo, Serializable {
   @Override
   public String getName() {
     return response.getName();
+  }
+
+  @Override
+  public String getAccessToken() {
+    return access_token;
+  }
+
+  @Override
+  public String getRefreshToken() {
+    return refresh_token;
   }
 }

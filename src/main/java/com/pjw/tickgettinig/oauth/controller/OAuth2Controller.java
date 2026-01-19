@@ -27,7 +27,7 @@ public class OAuth2Controller {
   @PostMapping("/naver")
   public ResponseEntity<LoginResponse> naverLoginCallback(@RequestBody NaverResponse response) {
     OAuth2UserInfo userInfo = oAuth2Client.getUserInfo(SnsType.NAVER, response.getCode());
-    User user = userService.getOrCreateUser(userInfo);
+    User user = userService.getOrCreateUser(userInfo, SnsType.NAVER);
     LoginResponse result = LoginResponse.of(jwtProvider.getAccessToken(user.getUsername(), userInfo.getProviderId()), null);
     return new ResponseEntity<>(result, HttpStatus.OK);
   }
