@@ -31,6 +31,8 @@ public class User extends BaseInfoEntity implements UserDetails {
   private String password;
   private String name;
   @Column(nullable = false, unique = true)
+  private String mobile;
+  @Column(nullable = false, unique = true)
   private String email;
   @Column(nullable = false, length = 1)
   private String state;
@@ -53,6 +55,7 @@ public class User extends BaseInfoEntity implements UserDetails {
         .username(req.getUsername())
         .password(req.getPassword())
         .name(req.getName())
+        .mobile(req.getMobile())
         .email(req.getEmail())
         .state("A")
         .roles(List.of("USER"))
@@ -66,6 +69,14 @@ public class User extends BaseInfoEntity implements UserDetails {
 
   public User updateLastLoginAt() {
     this.lastLoginAt = LocalDateTime.now();
+    return this;
+  }
+
+  public User updateFromRequest(UserRequest.Edit req) {
+    this.name = req.getName();
+    this.mobile = req.getMobile();
+    this.updatedAt = LocalDateTime.now();
+    this.updatedBy = username;
     return this;
   }
 

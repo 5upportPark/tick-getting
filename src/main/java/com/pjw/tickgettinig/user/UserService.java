@@ -38,10 +38,12 @@ public class UserService implements UserDetailsService {
     userRepository.save(user);
   }
 
-  public void editUser(User user) {
-    if (user == null || user.getId() == null) {
+  public void editUser(UserRequest.Edit req) {
+    if (req == null || req.getId() == null) {
       throw new UserNotFoundException("User not found: " + "id가 존재하지 않음");
     }
+    User user = userRepository.findById(req.getId()).orElseThrow(UserNotFoundException::new);
+    user.updateFromRequest(req);
     userRepository.save(user);
   }
 

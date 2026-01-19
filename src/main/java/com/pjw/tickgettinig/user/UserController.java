@@ -1,10 +1,13 @@
 package com.pjw.tickgettinig.user;
 
 import com.pjw.tickgettinig.user.dto.UserInfo;
+import com.pjw.tickgettinig.user.dto.UserRequest;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PatchMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
@@ -25,5 +28,11 @@ public class UserController {
     userInfo.setName(user.getUsername());
     userInfo.setEmail(user.getEmail());
     return new ResponseEntity<>(userInfo, HttpStatus.OK);
+  }
+
+  @PatchMapping
+  public ResponseEntity<UserInfo> updateUser(@RequestBody UserRequest.Edit req) {
+    userService.editUser(req);
+    return new ResponseEntity<>(null, HttpStatus.OK);
   }
 }

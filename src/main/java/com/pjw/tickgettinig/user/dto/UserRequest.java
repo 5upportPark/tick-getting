@@ -39,4 +39,20 @@ public class UserRequest {
     private String mobile;
   }
 
+  @Getter
+  @Setter
+  @Schema(description = "사용자 계정 생성 요청 청보")
+  public static class Edit {
+
+    private Long id;
+
+    @NotBlank(message = "이름은 필수입니다.")
+    @Length(min = 2, max = 20)
+    private String name;
+
+    @NotBlank(message = "전화번호는 필수입니다.")
+    @Pattern(regexp = "^[0-9]{10,11}$", message = "올바른 전화번호 형식이 아닙니다.")
+    private String mobile;
+  }
+
 }
