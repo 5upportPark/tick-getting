@@ -4,6 +4,7 @@ import com.pjw.tickgettinig.converter.StringListConverter;
 import com.pjw.tickgettinig.entity.BaseInfoEntity;
 import com.pjw.tickgettinig.oauth.SnsUser;
 import com.pjw.tickgettinig.user.dto.UserRequest;
+import io.micrometer.common.util.StringUtils;
 import jakarta.persistence.*;
 import java.util.Collection;
 import lombok.*;
@@ -11,6 +12,7 @@ import lombok.Builder.Default;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
+import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
@@ -21,6 +23,7 @@ import org.springframework.security.core.userdetails.UserDetails;
 @Setter
 @AllArgsConstructor
 @Builder
+@EntityListeners(value = {AuditingEntityListener.class})
 public class User extends BaseInfoEntity implements UserDetails {
 
   @Id
@@ -64,7 +67,6 @@ public class User extends BaseInfoEntity implements UserDetails {
 
   public void withdraw() {
     this.updatedAt = LocalDateTime.now();
-    this.updatedBy = username;
   }
 
   public User updateLastLoginAt() {
@@ -73,10 +75,9 @@ public class User extends BaseInfoEntity implements UserDetails {
   }
 
   public User updateFromRequest(UserRequest.Edit req) {
-    this.name = req.getName();
-    this.mobile = req.getMobile();
+    this.name = StringUtils.isBlank(req.getName()) ? name : req.getName();
+    this.mobile = StringUtils.isBlank(req.getMobile()) ? mobile : req.getMobile();
     this.updatedAt = LocalDateTime.now();
-    this.updatedBy = username;
     return this;
   }
 

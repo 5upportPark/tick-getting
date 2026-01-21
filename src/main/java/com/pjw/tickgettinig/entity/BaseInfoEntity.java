@@ -13,31 +13,22 @@ import org.springframework.data.annotation.LastModifiedDate;
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
 @Getter
-@NoArgsConstructor
+//@NoArgsConstructor
 @MappedSuperclass
 @EntityListeners(value = {AuditingEntityListener.class})
 public abstract class BaseInfoEntity {
 
   @CreatedBy
   @Column(updatable = false)
-  protected String createdBy;
+  protected Long createdBy;
 
   @CreatedDate
   @Column(updatable = false)
   protected LocalDateTime createdAt;
 
   @LastModifiedBy
-  protected String updatedBy;
+  protected Long updatedBy;
   @LastModifiedDate
   protected LocalDateTime updatedAt;
 
-  @PrePersist
-  public void prePersist() {
-    this.createdAt = LocalDateTime.now();
-  }
-
-  @PreUpdate
-  public void preUpdate() {
-    this.updatedAt = LocalDateTime.now();
-  }
 }

@@ -1,15 +1,24 @@
 package com.pjw.tickgettinig.common;
 
+import com.pjw.tickgettinig.user.User;
 import org.springframework.data.domain.AuditorAware;
-import org.springframework.stereotype.Component;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 
 import java.util.Optional;
 
-@Component
-public class MemberIdAuditorAware implements AuditorAware<String> {
-    @Override
-    public Optional<String> getCurrentAuditor() {
-        // TODO: 토큰에서 memberId 조회
-        return Optional.empty();
+public class MemberIdAuditorAware implements AuditorAware<Long> {
+
+  @Override
+  public Optional<Long> getCurrentAuditor() {
+    Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+    if (authentication == null || !authentication.isAuthenticated() || authentication.getPrincipal().equals("anonymousUser")) {
+      return Optional.empty();
     }
+    Object principal = authentication.getPrincipal();
+    if (principal instanceof User) {
+      return Optional.ofNullable(((User) principal).getId());
+    }
+    return Optional.empty();
+  }
 }
