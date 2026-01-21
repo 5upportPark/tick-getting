@@ -12,16 +12,18 @@ import org.springframework.boot.context.properties.ConfigurationProperties;
 public class OAuth2Properties {
 
   private final Properties naver;
+  private final Properties google;
 
-  public OAuth2Properties(Properties naver) {
+  public OAuth2Properties(Properties naver, Properties google) {
     this.naver = naver;
+    this.google = google;
   }
 
   public Properties ofSnsType(SnsType snsType) {
     return switch (snsType) {
       case NAVER -> this.naver;
       case KAKAO -> null; // TODO
-      case GOOGLE -> null; // TODO
+      case GOOGLE -> google;
       default -> throw new BusinessException("Invalid SnsType", ErrorCode.INVALID);
     };
   }

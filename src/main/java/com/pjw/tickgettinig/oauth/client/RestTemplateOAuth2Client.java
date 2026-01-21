@@ -1,13 +1,20 @@
 package com.pjw.tickgettinig.oauth.client;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.google.api.client.googleapis.auth.oauth2.GoogleIdToken;
+import com.google.api.client.googleapis.auth.oauth2.GoogleIdTokenVerifier;
+import com.pjw.tickgettinig.common.exceptions.BusinessException;
 import com.pjw.tickgettinig.config.properties.OAuth2Properties;
 import com.pjw.tickgettinig.oauth.OAuthResponse;
 import com.pjw.tickgettinig.oauth.SnsType;
+import com.pjw.tickgettinig.oauth.dto.GoogleUserInfo;
 import com.pjw.tickgettinig.oauth.dto.NaverUserInfo;
 import com.pjw.tickgettinig.oauth.dto.OAuth2UserInfo;
 import com.pjw.tickgettinig.utils.HttpUtil;
+import java.io.IOException;
+import java.security.GeneralSecurityException;
 import java.util.HashMap;
-import org.springframework.http.HttpEntity;
+import java.util.List;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpMethod;
 import org.springframework.http.MediaType;
@@ -19,9 +26,11 @@ import java.util.Map;
 public class RestTemplateOAuth2Client implements OAuth2Client {
 
   private final OAuth2Properties oAuth2Properties;
+  private final ObjectMapper objectMapper;
 
-  public RestTemplateOAuth2Client(OAuth2Properties oAuth2Properties) {
+  public RestTemplateOAuth2Client(OAuth2Properties oAuth2Properties, ObjectMapper objectMapper) {
     this.oAuth2Properties = oAuth2Properties;
+    this.objectMapper = objectMapper;
   }
 
   @Override
@@ -61,5 +70,26 @@ public class RestTemplateOAuth2Client implements OAuth2Client {
         .url(properties.getUserInfoUri()).method(HttpMethod.POST.name())
         .header("Authorization", "Bearer " + accessToken)
         .exchange(NaverUserInfo.class); //FIXME
+  }
+
+  public GoogleUserInfo getGoogleUserInfo(String id) {
+    GoogleIdTokenVerifier tokenVerifier = new GoogleIdTokenVerifier.Builder(null, null)
+        .setAudience(List.of(oAuth2Properties.getGoogle().getClientId()))
+        .build();
+
+    try {
+      GoogleIdToken idToken = tokenVerifier.verify(id);
+      if (idToken != null) {
+        GoogleIdToken.Payload payload = idToken.getPayload();
+        String userId = payload.getSubject();
+        String email = payload.getEmail();
+        boolean emailVerified = payload.getEmailVerified();
+        GoogleUserInfo userInfo = objectMapper.readValue(String.valueOf(payload), GoogleUserInfo.class);
+        return userInfo;
+      }
+    } catch (GeneralSecurityException | IOException e) {
+      throw new BusinessException(e);
+    }
+    return null;
   }
 }
