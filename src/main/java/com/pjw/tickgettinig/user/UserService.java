@@ -7,6 +7,7 @@ import com.pjw.tickgettinig.jwt.JwtProvider;
 import com.pjw.tickgettinig.oauth.SnsType;
 import com.pjw.tickgettinig.oauth.SnsUser;
 import com.pjw.tickgettinig.oauth.dto.OAuth2UserInfo;
+import com.pjw.tickgettinig.user.dto.UserInfo;
 import com.pjw.tickgettinig.user.dto.UserRequest;
 import com.pjw.tickgettinig.user.repository.SnsUserRepository;
 import com.pjw.tickgettinig.user.repository.UserRepository;
@@ -38,19 +39,20 @@ public class UserService implements UserDetailsService {
     userRepository.save(user);
   }
 
-  public void editUser(UserRequest.Edit req) {
+  public UserInfo editUser(UserRequest.Edit req) {
     if (req == null || req.getId() == null) {
       throw new UserNotFoundException("User not found: " + "id가 존재하지 않음");
     }
     User user = userRepository.findById(req.getId()).orElseThrow(UserNotFoundException::new);
     user.updateFromRequest(req);
     userRepository.save(user);
+    return UserInfo.of(user);
   }
 
-  public User getUser(Long id) {
+  public UserInfo getUser(Long id) {
     User user = userRepository.findById(id)
         .orElseThrow(() -> new UserNotFoundException("User Not Found"));
-    return user;
+    return UserInfo.of(user);
   }
 
   public User getUser(String username) {

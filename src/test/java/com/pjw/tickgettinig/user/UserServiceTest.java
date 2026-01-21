@@ -6,6 +6,7 @@ import static org.mockito.BDDMockito.given;
 
 import com.pjw.tickgettinig.common.exceptions.UserNotFoundException;
 import com.pjw.tickgettinig.jwt.JwtProvider;
+import com.pjw.tickgettinig.user.dto.UserInfo;
 import com.pjw.tickgettinig.user.repository.SnsUserRepository;
 import com.pjw.tickgettinig.user.repository.UserRepository;
 import java.util.Optional;
@@ -42,18 +43,18 @@ class UserServiceTest {
     Long userId = 1L;
     User user = User.builder()
         .id(userId)
-        .username("testuser")
+        .name("testuser")
         .email("test@example.com")
         .build();
     given(userRepository.findById(userId)).willReturn(Optional.of(user));
 
     // when
-    User result = userService.getUser(userId);
+    UserInfo result = userService.getUser(userId);
 
     // then
     assertThat(result).isNotNull();
     assertThat(result.getId()).isEqualTo(userId);
-    assertThat(result.getUsername()).isEqualTo("testuser");
+    assertThat(result.getName()).isEqualTo("testuser");
   }
 
   @Test

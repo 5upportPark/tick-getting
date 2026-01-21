@@ -8,8 +8,7 @@ import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
-
-import java.time.ZonedDateTime;
+import java.time.LocalDateTime;
 
 @Entity
 @Table
@@ -46,7 +45,7 @@ public class Actor extends BaseInfoEntity {
     }
 
     @Builder
-    public Actor(Long id, String name, String image, String createdBy, ZonedDateTime createdAt, String updatedBy, ZonedDateTime updatedAt) {
+    public Actor(Long id, String name, String image, Long createdBy, LocalDateTime createdAt, Long updatedBy, LocalDateTime updatedAt) {
         this.id = id;
         this.name = name;
         this.image = image;

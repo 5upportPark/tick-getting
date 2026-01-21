@@ -22,9 +22,11 @@ public class NaverUserInfo implements OAuth2UserInfo, Serializable {
   private Response response;
 
   @Builder
-  public NaverUserInfo(String resultcode, String message, Response response) {
+  public NaverUserInfo(String resultcode, String message, String accessToken, String refreshToken, Response response) {
     this.resultcode = resultcode;
     this.message = message;
+    this.access_token = accessToken;
+    this.refresh_token = refreshToken;
     this.response = response;
   }
 

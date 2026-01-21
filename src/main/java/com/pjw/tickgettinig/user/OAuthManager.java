@@ -47,6 +47,6 @@ public class OAuthManager implements AuthenticationManager {
         .params(params)
         .exchange(Object.class);
     // 인증된 Authentication 객체를 반환합니다. 비밀번호는 필요하지 않으므로 null로 설정합니다.
-    return UsernamePasswordAuthenticationToken.of(userDetails);
+    return UsernamePasswordAuthenticationToken.of((User) userDetails);
   }
 }

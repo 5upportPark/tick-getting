@@ -21,18 +21,11 @@ public class UserController {
 
   @GetMapping
   public ResponseEntity<UserInfo> getUser(@RequestParam Long id) {
-    // TODO 정리필요
-    User user = userService.getUser(id);
-    UserInfo userInfo = new UserInfo();
-    userInfo.setId(id);
-    userInfo.setName(user.getUsername());
-    userInfo.setEmail(user.getEmail());
-    return new ResponseEntity<>(userInfo, HttpStatus.OK);
+    return new ResponseEntity<>(userService.getUser(id), HttpStatus.OK);
   }
 
   @PatchMapping
   public ResponseEntity<UserInfo> updateUser(@RequestBody UserRequest.Edit req) {
-    userService.editUser(req);
-    return new ResponseEntity<>(null, HttpStatus.OK);
+    return new ResponseEntity<>(userService.editUser(req), HttpStatus.OK);
   }
 }

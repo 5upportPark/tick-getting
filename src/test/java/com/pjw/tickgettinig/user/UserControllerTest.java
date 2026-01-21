@@ -7,6 +7,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 
 import com.pjw.tickgettinig.common.GlobalExceptionHandler;
 import com.pjw.tickgettinig.common.exceptions.UserNotFoundException;
+import com.pjw.tickgettinig.user.dto.UserInfo;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -41,9 +42,9 @@ class UserControllerTest {
   void getUser_Success() throws Exception {
     // given
     Long userId = 1L;
-    User user = User.builder()
+    UserInfo user = UserInfo.builder()
         .id(userId)
-        .username("testuser")
+        .name("testuser")
         .email("test@example.com")
         .build();
     given(userService.getUser(userId)).willReturn(user);
