@@ -46,6 +46,11 @@ dependencies {
     // Source: https://mvnrepository.com/artifact/org.springframework.boot/spring-boot-starter-data-redis
     implementation("org.springframework.boot:spring-boot-starter-data-redis")
 
+    // Source: https://mvnrepository.com/artifact/com.bucket4j/bucket4j-core
+    implementation("com.bucket4j:bucket4j-core:8.10.1")
+    // Source: https://mvnrepository.com/artifact/com.bucket4j/bucket4j-redis
+    implementation("com.bucket4j:bucket4j-redis:8.10.1")
+
     //swagger
     // https://mvnrepository.com/artifact/org.springdoc/springdoc-openapi-starter-webmvc-ui
     implementation 'org.springdoc:springdoc-openapi-starter-webmvc-ui:2.8.0'
